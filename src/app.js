@@ -8,15 +8,18 @@ import { DraggableList } from "./components/draggable-list";
 import { Deck } from "./components/Deck";
 import { ActionSheet } from "./components/action-sheet";
 import { Infinite } from "./components/infinite-slideshow";
+import { Chat } from "./views/chat";
+
+import './styles/global';
 
 const RouteNavs = () => {
   return (
     <>
-      <Link to="/">Home</Link> | <Link to="/chat">Chat</Link> | 
+      <Link to="/">Home</Link>  | <Link to="/movie">Movie</Link>
       <Link to="/dragList">DragList</Link> | <Link to="/deck">Deck</Link> | 
       <Link to="/action-sheet">action-sheet</Link>
       <Link to="/infinite">Infinite Slider</Link>
-      <Link to="/messages">Messages</Link>
+      <Link to="/chat">Chat</Link>
     </>
   );
 };
@@ -112,12 +115,13 @@ function App() {
 
       <Router>
         <Count path="/" />
-        <Movie path="/chat" />
+        <Movie path="/movie" />
         <DragList path="/dragList" />
         <DeckComponent path="/deck" />
         <ActionSheetComponent path="/action-sheet" />
         <InfiniteComponent path="/infinite" />
         <Messages path="/messages" />
+        <Chat path="/chat" />
       </Router>
     </AppContext.Provider>
   );
