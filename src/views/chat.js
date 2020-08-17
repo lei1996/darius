@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useSpring, animated, config } from "react-spring";
+import { useDrag } from "react-use-gesture";
 
 import { css } from "linaria";
 import { colors } from "../styles/colors";
+
+import { expressions } from "../utils/expressions";
+const baidu = "../assets/images/baidu.png";
 
 const center = {
   display: "flex",
@@ -21,7 +26,9 @@ const topBottom = {
 };
 
 const leftRight = {
-  ...common,
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
 };
 
 const bg = css`
@@ -101,8 +108,9 @@ const linkmanItem = css`
   transition: all 0.25s ease-in;
 
   &:hover {
-    background: rgba(222, 222, 222, 0.4);
-    transition: all 0.25s ease-out;
+    /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
+    background: rgba(222, 222, 222, 0.1);
+    /* transition: all 0.25s ease-out; */
   }
 `;
 
@@ -182,13 +190,266 @@ const time = css`
   font-size: 11px;
 `;
 
-const navBar = css`
+const chatRight = css`
+  display: flex;
   flex: 1;
-  height: 60px;
+  flex-direction: column;
+  background: ${colors.messagebgColor};
+  color: #fff;
+  padding: 0 36px;
+`;
+
+const navBar = css`
+  height: 78px;
   ${leftRight};
+  background: ${colors.messagebgColor};
+  color: #fff;
+  padding-bottom: 5px;
+`;
+
+const navBarLeft = css`
+  font-weight: bold;
+  display: flex;
+  align-items: flex-end;
+
+  & > img {
+    width: 48px;
+    width: 48px;
+    border-radius: 50%;
+  }
+
+  & > span {
+    font-weight: bold;
+    font-size: 26px;
+    margin-left: 18px;
+  }
+`;
+
+const chatContainer = css`
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  .messageItem {
+    display: flex;
+    align-items: flex-end;
+
+    &.self {
+      flex-flow: row-reverse;
+
+      .message {
+        margin: 0 12px 0 0;
+        border-radius: 12px 12px 0 12px;
+      }
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background: rgba(222, 222, 221, 0.8);
+      border-radius: 50%;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    .message {
+      max-width: 450px;
+      background-color: ${colors.messageContentBgColor};
+      border-radius: 12px 12px 12px 0;
+      padding: 8px 14px;
+      margin-left: 12px;
+
+      .head {
+        display: flex;
+        margin-bottom: 20px;
+
+        .name {
+          font-size: 12px;
+          color: #fcfbff;
+          font-weight: bold;
+        }
+        .time {
+          font-size: 11px;
+          color: #fcfbff;
+          margin-left: 20px;
+        }
+      }
+      .content {
+        font-size: 14px;
+        color: ${colors.messageContentColor};
+      }
+    }
+  }
+`;
+
+const chatInput = css`
+  /* height: 78px; */
+  height: 282px;
+  padding-bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  will-change: transform;
+  background: ${colors.messagebgColor};
+  position: relative;
+
+  /* transform: translate3d(0, 196px, 0); */
+
+  .ch_input {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    max-height: 50px;
+
+    .left {
+      ${center};
+      background: #1f2125;
+      border-radius: 8px 0 0 8px;
+      flex: 1;
+
+      .expression {
+        width: 50px;
+        height: 50px;
+        ${center};
+      }
+
+      & > input {
+        background: transparent;
+        padding: 0 14px;
+        width: 100%;
+        height: 100%;
+        border-style: none;
+        outline: none;
+        color: #fff;
+        font-size: 15px;
+      }
+    }
+
+    .right {
+      width: 192px;
+      ${center};
+
+      background: #1f2125;
+      border-radius: 0 8px 8px 0;
+      margin-left: 2px;
+    }
+  }
+`;
+
+const barLine = css`
+  width: 120px;
+  height: 8px;
+  background: #595b61;
+  border-radius: 8px;
+  margin: 14px 0;
+  transition: all 0.35s ease-in;
+  cursor: pointer;
+  z-index: 9999;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.35s ease-out;
+    /* transform: translate3d(0px, -6px, 0px); */
+    /* scale: 1.2; */
+  }
+`;
+
+const expression = css`
+  width: 100%;
+  /* height: 260px; */
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`;
+
+const expressionItem = css`
+  padding: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: rgba(222, 222, 222, 0.8);
+    cursor: pointer;
+  }
+
+  .defaultExpressionItem {
+    width: 47px;
+    height: 47px;
+    background-repeat: no-repeat;
+    background-size: 47px auto;
+    background-image: url(${baidu});
+  }
 `;
 
 export const Chat = () => {
+  const isOpenRef = useRef(false);
+  const [{ y }, set] = useSpring(() => ({ y: 196 }));
+  let myPos = 0;
+
+  const open = () => {
+    set({ y: 0 });
+  };
+
+  const close = () => {
+    set({ y: 196 });
+  };
+
+  const isOpen = (down, my) => {
+    // diff > 0 open 状态
+    // my > 196 禁止滑动 my < -50 开始增大阻尼
+    if (down) {
+      set({ y: my < -50 ? -50 : my && my > 196 ? 196 : my });
+    } else {
+      const diff = 98 - my;
+      diff > 0 ? open() : close();
+    }
+  };
+
+  const bind = useDrag(
+    ({ down, movement: [, my] }) => {
+      isOpen(down, my);
+    },
+    {
+      initial: () => [0, y.get()],
+    }
+  );
+
+  const renderContent = (message) => {
+    switch (type) {
+      case "text": {
+        // return <TextMessage content={content} />;
+      }
+      case "image": {
+        // return (
+        //   <ImageMessage src={content} loading={loading} percent={percent} />
+        // );
+      }
+      case "code": {
+        // return <CodeMessage code={content} />;
+      }
+      case "url": {
+        // return <UrlMessage url={content} />;
+      }
+      case "invite": {
+        // return <InviteMessage inviteInfo={content} />;
+      }
+      case "system": {
+        // return <SystemMessage message={content} username={originUsername} />;
+      }
+      default:
+        return <div className="unknown">不支持的消息类型</div>;
+    }
+  };
+
   return (
     <div className={bg}>
       <div className={chat}>
@@ -256,119 +517,134 @@ export const Chat = () => {
                 </div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+          </div>
+        </div>
+        <div className={chatRight}>
+          <div className={navBar}>
+            <div className={navBarLeft}>
+              <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+              <span>Darius</span>
+            </div>
+            <div>33333</div>
+          </div>
+          <div onClick={close} className={chatContainer}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-            <div className={linkmanItem}>
-              {/* 左右布局 */}
-              <div className={avatar}>
+            <div className="messageItem">
+              <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
                 </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
+              </div>
+            </div>
+            <div className="messageItem self">
+              <div className="avatar">
+                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+              </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
+                </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
           </div>
-        </div>
-        <div className={navBar}>
-          <div>1</div>
-          <div>2</div>
+          <animated.div className={chatInput} style={{ y }}>
+            <div className="ch_input">
+              <div className="left">
+                <div className="expression"></div>
+                <input placeholder="闲来无事吃个瓜ba~" />
+              </div>
+              <div className="right">
+                <div>发送图片</div>
+                <div>发送文件</div>
+                <div>发送消息</div>
+              </div>
+            </div>
+            <div {...bind()} className={barLine}></div>
+            <div className={expression}>
+              {/* 这里是表情栏，可以 touch 滑动，可以搜索表情 */}
+              <div>{["favorite", "默认", "22"]}</div>
+              <div className="body">
+                {expressions.map((ex, index) => {
+                  return (
+                    <div key={index} className={expressionItem}>
+                      <div
+                        className="defaultExpressionItem"
+                        style={{
+                          backgroundPosition: `left ${-47 * index}px`,
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </animated.div>
         </div>
       </div>
     </div>

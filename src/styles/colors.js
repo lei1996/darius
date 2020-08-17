@@ -7,4 +7,7 @@ export const colors = {
   nameColor: "#FBFDFF",
   messageColor: "#838589",
   onlineColor: "#35C835",
+  messagebgColor: '#17191D',
+  messageContentBgColor: '#1F2125',
+  messageContentColor: '#8E9094',
 };

@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { Router, Link } from "@reach/router";
 import { useObserver, observer, useLocalStore } from "mobx-react-lite";
 
+import { hot } from 'react-hot-loader/root';
+
 import { AppProvider, AppContext } from "./appStore";
 
 import { DraggableList } from "./components/draggable-list";
@@ -127,4 +129,4 @@ function App() {
   );
 }
 
-export default App;
+export default hot(App);
