@@ -5,32 +5,6 @@ import { useSprings, animated } from "react-spring";
 import { css } from "linaria";
 import { debounce } from "lodash-es";
 
-// css`
-//   :global() {
-//     * {
-//       box-sizing: border-box;
-//     }
-
-//     html,
-//     body {
-//       margin: 0;
-//       padding: 0;
-//       height: 100%;
-//       width: 100%;
-//       overflow: hidden;
-//       user-select: none;
-//       font-family: "Raleway", sans-serif;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       background: #f0f0f0;
-//       cursor: url("https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png")
-//           39 39,
-//         auto;
-//     }
-//   }
-// `;
-
 const draggableMain = css`
   margin: 0;
   padding: 0;
@@ -146,9 +120,6 @@ export function DraggableList({ items }) {
           className={child}
           style={{
             zIndex,
-            // boxShadow: shadow.to(
-            //   (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
-            // ),
             y,
           }}
         >

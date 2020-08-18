@@ -94,23 +94,23 @@ const linkmanItems = css`
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-`;
 
-const linkmanItem = css`
-  width: 100%;
-  height: 70px;
-  padding: 0 16px;
+  .linkmanItem {
+    width: 100%;
+    height: 70px;
+    padding: 0 16px;
 
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  cursor: pointer;
-  transition: all 0.25s ease-in;
+    cursor: pointer;
+    transition: all 0.25s ease-in;
 
-  &:hover {
-    /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
-    background: rgba(222, 222, 222, 0.1);
-    /* transition: all 0.25s ease-out; */
+    &:hover {
+      /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
+      background: rgba(222, 222, 222, 0.1);
+      /* transition: all 0.25s ease-out; */
+    }
   }
 `;
 
@@ -126,17 +126,17 @@ const avatar = css`
     width: 100%;
     height: 100%;
   }
-`;
 
-const online = css`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: ${colors.onlineColor};
+  .online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: ${colors.onlineColor};
 
-  position: absolute;
-  right: -3px;
-  bottom: 2px;
+    position: absolute;
+    right: -3px;
+    bottom: 2px;
+  }
 `;
 
 const linkmanContent = css`
@@ -206,10 +206,9 @@ const navBar = css`
   color: #fff;
   padding-bottom: 5px;
   z-index: 10;
-`;
 
-const navBarLeft = css`
-  font-weight: bold;
+  .navBarLeft {
+    font-weight: bold;
   display: flex;
   align-items: flex-end;
 
@@ -224,7 +223,9 @@ const navBarLeft = css`
     font-size: 26px;
     margin-left: 18px;
   }
+  }
 `;
+
 
 const chatContainer = css`
   flex: 1;
@@ -237,12 +238,13 @@ const chatContainer = css`
   .messageItem {
     display: flex;
     align-items: flex-end;
+    padding: 12px 0;
 
     &.self {
       flex-flow: row-reverse;
 
       .message {
-        margin: 0 12px 0 0;
+        margin-right: 16px;
         border-radius: 12px 12px 0 12px;
       }
     }
@@ -263,9 +265,9 @@ const chatContainer = css`
     .message {
       max-width: 450px;
       background-color: ${colors.messageContentBgColor};
-      border-radius: 12px 12px 12px 0;
       padding: 8px 14px;
-      margin-left: 12px;
+      margin-left: 16px;
+      border-radius: 12px 12px 12px 0;
 
       .head {
         display: flex;
@@ -470,7 +472,7 @@ export const Chat = () => {
             <input placeholder="请输入关键字" />
           </div>
           <div className={linkmanItems}>
-            <div className={linkmanItem}>
+            <div className="linkmanItem">
               {/* 左右布局 */}
               <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
@@ -488,7 +490,7 @@ export const Chat = () => {
                 </div>
               </div>
             </div>
-            <div className={linkmanItem}>
+            <div className="linkmanItem">
               {/* 左右布局 */}
               <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
@@ -506,11 +508,11 @@ export const Chat = () => {
                 </div>
               </div>
             </div>
-            <div className={linkmanItem}>
+            <div className="linkmanItem">
               {/* 左右布局 */}
               <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
-                <div className={online}></div>
+                <div className="online"></div>
               </div>
               <div className={linkmanContent}>
                 <div className={name}>q111</div>
@@ -529,7 +531,7 @@ export const Chat = () => {
         </div>
         <div className={chatRight}>
           <div className={navBar}>
-            <div className={navBarLeft}>
+            <div className="navBarLeft">
               <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               <span>Darius</span>
             </div>
