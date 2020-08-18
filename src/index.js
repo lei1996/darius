@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./app";
 
 // dev模式 会报warning
 // https://github.com/mobxjs/mobx-react-lite/#observer-batching
