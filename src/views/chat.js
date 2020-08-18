@@ -205,6 +205,7 @@ const navBar = css`
   background: ${colors.messagebgColor};
   color: #fff;
   padding-bottom: 5px;
+  z-index: 10;
 `;
 
 const navBarLeft = css`
@@ -228,6 +229,9 @@ const navBarLeft = css`
 const chatContainer = css`
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  will-change: transform;
   -webkit-overflow-scrolling: touch;
 
   .messageItem {
@@ -287,9 +291,8 @@ const chatContainer = css`
 `;
 
 const chatInput = css`
-  /* height: 78px; */
-  height: 282px;
-  padding-bottom: 26px;
+  height: 98px;
+  padding: 13px 0;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -297,8 +300,6 @@ const chatInput = css`
   will-change: transform;
   background: ${colors.messagebgColor};
   position: relative;
-
-  /* transform: translate3d(0, 196px, 0); */
 
   .ch_input {
     flex: 1;
@@ -346,7 +347,7 @@ const barLine = css`
   height: 8px;
   background: #595b61;
   border-radius: 8px;
-  margin: 14px 0;
+  margin-top: 14px;
   transition: all 0.35s ease-in;
   cursor: pointer;
   z-index: 9999;
@@ -354,17 +355,19 @@ const barLine = css`
   &:hover {
     background: rgba(255, 255, 255, 0.8);
     transition: all 0.35s ease-out;
-    /* transform: translate3d(0px, -6px, 0px); */
-    /* scale: 1.2; */
   }
 `;
 
 const expression = css`
   width: 100%;
-  /* height: 260px; */
+  max-height: 220px;
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
+  background: #17191d;
 
   .body {
     display: flex;
@@ -392,24 +395,29 @@ const expressionItem = css`
 
 export const Chat = () => {
   const isOpenRef = useRef(false);
-  const [{ y }, set] = useSpring(() => ({ y: 196 }));
+  const [{ y }, set] = useSpring(() => ({ y: 0 }));
   let myPos = 0;
 
   const open = () => {
-    set({ y: 0 });
+    set({ y: -220 });
   };
 
   const close = () => {
-    set({ y: 196 });
+    set({ y: 0 });
   };
 
   const isOpen = (down, my) => {
     // diff > 0 open 状态
     // my > 196 禁止滑动 my < -50 开始增大阻尼
+    // 往上滑是 负数 -220 是表情的最大高度
+    console.log(my);
     if (down) {
-      set({ y: my < -50 ? -50 : my && my > 196 ? 196 : my });
+      set({ y: my < -270 ? -270 : my && my > 50 ? 50 : my });
+      // set({ y: my });
     } else {
-      const diff = 98 - my;
+      // const diff = 98 - my;
+      // -110 是  表情最大高度的一半 -220 / 2
+      const diff = -110 - my;
       diff > 0 ? open() : close();
     }
   };
@@ -527,7 +535,7 @@ export const Chat = () => {
             </div>
             <div>33333</div>
           </div>
-          <div onClick={close} className={chatContainer}>
+          <animated.div onClick={close} className={chatContainer} style={{ y }}>
             <div className="messageItem">
               <div className="avatar">
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
@@ -612,7 +620,7 @@ export const Chat = () => {
                 <div className="content">你们觉得 今天的天气怎么样？</div>
               </div>
             </div>
-          </div>
+          </animated.div>
           <animated.div className={chatInput} style={{ y }}>
             <div className="ch_input">
               <div className="left">
