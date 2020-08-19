@@ -54,7 +54,7 @@ module.exports = {
       },
       // 处理图片资源的 loader
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         use: [
           {
             loader: "url-loader",
@@ -64,6 +64,11 @@ module.exports = {
             },
           },
         ],
+      },
+      // 使用 svgr 处理svg文件
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader'],
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

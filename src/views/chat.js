@@ -209,23 +209,22 @@ const navBar = css`
 
   .navBarLeft {
     font-weight: bold;
-  display: flex;
-  align-items: flex-end;
+    display: flex;
+    align-items: flex-end;
 
-  & > img {
-    width: 48px;
-    width: 48px;
-    border-radius: 50%;
-  }
+    & > img {
+      width: 48px;
+      width: 48px;
+      border-radius: 50%;
+    }
 
-  & > span {
-    font-weight: bold;
-    font-size: 26px;
-    margin-left: 18px;
-  }
+    & > span {
+      font-weight: bold;
+      font-size: 26px;
+      margin-left: 18px;
+    }
   }
 `;
-
 
 const chatContainer = css`
   flex: 1;
@@ -397,15 +396,16 @@ const expressionItem = css`
 
 export const Chat = () => {
   const isOpenRef = useRef(false);
-  const [{ y }, set] = useSpring(() => ({ y: 0 }));
+  const [{ y }, setY] = useSpring(() => ({ y: 0 }));
+  const [{ x }, setX] = useSpring(() => ({ x: 0 }));
   let myPos = 0;
 
   const open = () => {
-    set({ y: -220 });
+    setY({ y: -220 });
   };
 
   const close = () => {
-    set({ y: 0 });
+    setY({ y: 0 });
   };
 
   const isOpen = (down, my) => {
@@ -414,7 +414,7 @@ export const Chat = () => {
     // 往上滑是 负数 -220 是表情的最大高度
     console.log(my);
     if (down) {
-      set({ y: my < -270 ? -270 : my && my > 50 ? 50 : my });
+      setY({ y: my < -270 ? -270 : my && my > 50 ? 50 : my });
       // set({ y: my });
     } else {
       // const diff = 98 - my;
@@ -430,6 +430,16 @@ export const Chat = () => {
     },
     {
       initial: () => [0, y.get()],
+    }
+  );
+
+  const bind2 = useDrag(
+    ({ down, movement: [mx] }) => {
+      console.log(mx);
+      setX({ x: mx });
+    },
+    {
+      initial: () => [0, x.get()],
     }
   );
 
@@ -639,20 +649,24 @@ export const Chat = () => {
             <div className={expression}>
               {/* 这里是表情栏，可以 touch 滑动，可以搜索表情 */}
               <div>{["favorite", "默认", "22"]}</div>
-              <div className="body">
-                {expressions.map((ex, index) => {
-                  return (
-                    <div key={index} className={expressionItem}>
-                      <div
-                        className="defaultExpressionItem"
-                        style={{
-                          backgroundPosition: `left ${-47 * index}px`,
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+              <animated.div style={{ x }}>
+                <div {...bind2()}>
+                  <div className="body">
+                    {expressions.map((ex, index) => {
+                      return (
+                        <div key={index} className={expressionItem}>
+                          <div
+                            className="defaultExpressionItem"
+                            style={{
+                              backgroundPosition: `left ${-47 * index}px`,
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </animated.div>
             </div>
           </animated.div>
         </div>
