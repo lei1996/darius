@@ -3,15 +3,16 @@ import { useSpring, animated, config } from "react-spring";
 import { useDrag } from "react-use-gesture";
 
 import { css } from "linaria";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
-import { expressions } from "../utils/expressions";
-const baidu = "../assets/images/baidu.png";
-import imageFile from "../assets/png/image-file.png";
-import beachUmbrella2 from "../assets/png/beach-umbrella2.png";
-import conflict from "../assets/png/conflict.png";
-import file from "../assets/png/file.png";
-import { ReactComponent as MessageSend } from "../assets/svg/email-send.svg";
+import { expressions } from "../../utils/expressions";
+const baidu = "../../assets/images/baidu.png";
+import imageFile from "../../assets/png/image-file.png";
+import beachUmbrella2 from "../../assets/png/beach-umbrella2.png";
+import conflict from "../../assets/png/conflict.png";
+import { ReactComponent as MessageSend } from "../../assets/svg/email-send.svg";
+
+import {TextMessage} from "../../components/Message/TextMessage";
 
 const center = {
   display: "flex",
@@ -474,16 +475,6 @@ export const Chat = () => {
     }
   );
 
-  const bind2 = useDrag(
-    ({ down, movement: [mx] }) => {
-      console.log(mx);
-      setX({ x: mx });
-    },
-    {
-      initial: () => [0, x.get()],
-    }
-  );
-
   const renderContent = (message) => {
     switch (type) {
       case "text": {
@@ -611,7 +602,7 @@ export const Chat = () => {
                   <div className="name">q111</div>
                   <div className="time">14: 12</div>
                 </div>
-                <div className="content">你们觉得 今天的天气怎么样？</div>
+                <TextMessage content="你们觉得#(阴险) 今天的天气怎么样？你们觉得" />
               </div>
             </div>
             <div className="messageItem">

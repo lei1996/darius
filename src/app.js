@@ -10,7 +10,7 @@ import { DraggableList } from "./components/draggable-list";
 import { Deck } from "./components/Deck";
 import { ActionSheet } from "./components/action-sheet";
 import { Infinite } from "./components/infinite-slideshow";
-import { Chat } from "./views/chat";
+import { Chat } from "./views/chat/index";
 
 import './styles/global';
 
