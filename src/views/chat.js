@@ -7,6 +7,11 @@ import { colors } from "../styles/colors";
 
 import { expressions } from "../utils/expressions";
 const baidu = "../assets/images/baidu.png";
+import imageFile from "../assets/png/image-file.png";
+import beachUmbrella2 from "../assets/png/beach-umbrella2.png";
+import conflict from "../assets/png/conflict.png";
+import file from "../assets/png/file.png";
+import { ReactComponent as MessageSend } from "../assets/svg/email-send.svg";
 
 const center = {
   display: "flex",
@@ -264,28 +269,29 @@ const chatContainer = css`
     .message {
       max-width: 450px;
       background-color: ${colors.messageContentBgColor};
-      padding: 8px 14px;
-      margin-left: 16px;
+      padding: 12px 18px;
       border-radius: 12px 12px 12px 0;
 
       .head {
         display: flex;
-        margin-bottom: 20px;
+        align-items: flex-end;
+        margin-bottom: 12px;
 
         .name {
-          font-size: 12px;
+          font-size: 14px;
           color: #fcfbff;
           font-weight: bold;
         }
         .time {
           font-size: 11px;
-          color: #fcfbff;
-          margin-left: 20px;
+          color: #bcb9c3;
+          margin-left: 16px;
         }
       }
       .content {
-        font-size: 14px;
+        font-size: 15px;
         color: ${colors.messageContentColor};
+        user-select: text;
       }
     }
   }
@@ -318,6 +324,17 @@ const chatInput = css`
         width: 50px;
         height: 50px;
         ${center};
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+
+        & > img {
+          height: 100%;
+        }
       }
 
       & > input {
@@ -333,12 +350,36 @@ const chatInput = css`
     }
 
     .right {
-      width: 192px;
       ${center};
 
       background: #1f2125;
       border-radius: 0 8px 8px 0;
       margin-left: 2px;
+
+      .img {
+        width: 50px;
+        height: 100%;
+        padding: 12px;
+        ${center};
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+
+        &:first-child {
+          padding: 10px;
+        }
+
+        & > img {
+          height: 123%;
+        }
+
+        & > svg {
+          height: 100%;
+        }
+      }
     }
   }
 `;
@@ -377,7 +418,7 @@ const expression = css`
 `;
 
 const expressionItem = css`
-  padding: 10px;
+  padding: 9px;
   transition: all 0.3s;
 
   &:hover {
@@ -549,7 +590,7 @@ export const Chat = () => {
           </div>
           <animated.div onClick={close} className={chatContainer} style={{ y }}>
             <div className="messageItem">
-              <div className="avatar">
+              <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
               <div className="message">
@@ -561,7 +602,36 @@ export const Chat = () => {
               </div>
             </div>
             <div className="messageItem">
-              <div className="avatar">
+              <div className={avatar}>
+                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+                <div className="online"></div>
+              </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
+                </div>
+                <div className="content">你们觉得 今天的天气怎么样？</div>
+              </div>
+            </div>
+            <div className="messageItem">
+              <div className={avatar}>
+                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+              </div>
+              <div className="message">
+                <div className="head">
+                  <div className="name">q111</div>
+                  <div className="time">14: 12</div>
+                </div>
+                <div className="content">
+                  你们觉得 今天的天气怎么样？你们觉得 今天的天气怎么样？你们觉得
+                  今天的天气怎么样？你们觉得 今天的天气怎么样？你们觉得
+                  今天的天气怎么样？你们觉得 今天的天气怎么样？
+                </div>
+              </div>
+            </div>
+            <div className="messageItem">
+              <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
               <div className="message">
@@ -573,7 +643,7 @@ export const Chat = () => {
               </div>
             </div>
             <div className="messageItem">
-              <div className="avatar">
+              <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
               <div className="message">
@@ -585,31 +655,7 @@ export const Chat = () => {
               </div>
             </div>
             <div className="messageItem">
-              <div className="avatar">
-                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
-              </div>
-              <div className="message">
-                <div className="head">
-                  <div className="name">q111</div>
-                  <div className="time">14: 12</div>
-                </div>
-                <div className="content">你们觉得 今天的天气怎么样？</div>
-              </div>
-            </div>
-            <div className="messageItem">
-              <div className="avatar">
-                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
-              </div>
-              <div className="message">
-                <div className="head">
-                  <div className="name">q111</div>
-                  <div className="time">14: 12</div>
-                </div>
-                <div className="content">你们觉得 今天的天气怎么样？</div>
-              </div>
-            </div>
-            <div className="messageItem">
-              <div className="avatar">
+              <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
               <div className="message">
@@ -621,7 +667,7 @@ export const Chat = () => {
               </div>
             </div>
             <div className="messageItem self">
-              <div className="avatar">
+              <div className={avatar}>
                 <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
               </div>
               <div className="message">
@@ -636,21 +682,30 @@ export const Chat = () => {
           <animated.div className={chatInput} style={{ y }}>
             <div className="ch_input">
               <div className="left">
-                <div className="expression"></div>
+                <div className="expression" onClick={open}>
+                  <img src={beachUmbrella2} />
+                </div>
                 <input placeholder="闲来无事吃个瓜ba~" />
               </div>
               <div className="right">
-                <div>发送图片</div>
-                <div>发送文件</div>
-                <div>发送消息</div>
+                <div className="img">
+                  <img src={imageFile} />
+                </div>
+                <div className="img">
+                  <img src={conflict} />
+                </div>
+                <div className="img">
+                  <MessageSend />
+                </div>
               </div>
             </div>
             <div {...bind()} className={barLine}></div>
             <div className={expression}>
               {/* 这里是表情栏，可以 touch 滑动，可以搜索表情 */}
-              <div>{["favorite", "默认", "22"]}</div>
+              {/* <div>{["favorite", "默认", "22"]}</div> */}
               <animated.div style={{ x }}>
-                <div {...bind2()}>
+                {/* <div {...bind2()}> */}
+                <div>
                   <div className="body">
                     {expressions.map((ex, index) => {
                       return (
