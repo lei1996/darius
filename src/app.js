@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Router, Link } from "@reach/router";
 import { useObserver, observer, useLocalStore } from "mobx-react-lite";
 
-import { hot } from 'react-hot-loader/root';
+import { hot } from "react-hot-loader/root";
 
 import { AppProvider, AppContext } from "./appStore";
 
@@ -12,17 +12,40 @@ import { ActionSheet } from "./components/action-sheet";
 import { Infinite } from "./components/infinite-slideshow";
 import { Chat } from "./views/chat/index";
 
-import './styles/global';
+import { css } from "linaria";
+import "./styles/global";
+
+const navBar = css`
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  width: 100vw;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 20px 60px;
+
+  & > a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0 14px;
+    cursor: pointer;
+  }
+`;
 
 const RouteNavs = () => {
   return (
-    <>
-      <Link to="/">Home</Link>  | <Link to="/movie">Movie</Link>
-      <Link to="/dragList">DragList</Link> | <Link to="/deck">Deck</Link> | 
+    <div className={navBar}>
+      <Link to="/">Home</Link>
+      <Link to="/movie">Movie</Link>
+      <Link to="/dragList">DragList</Link>
+      <Link to="/deck">Deck</Link>
       <Link to="/action-sheet">action-sheet</Link>
       <Link to="/infinite">Infinite Slider</Link>
       <Link to="/chat">Chat</Link>
-    </>
+    </div>
   );
 };
 
@@ -30,7 +53,7 @@ const Count = () => {
   const { counterProvider } = useContext(AppContext);
 
   return useObserver(() => (
-    <div>
+    <div style={{paddingTop: 80}}>
       <h2>Count: {counterProvider.count}</h2>
       <button onClick={counterProvider.increment}>+</button>
       <button onClick={counterProvider.decrement}>-</button>
@@ -43,7 +66,7 @@ const Movie = () => {
   const { moviesProvider } = useContext(AppContext);
 
   return useObserver(() => (
-    <div>
+    <div style={{paddingTop: 80}}>
       <h2>Movies: {moviesProvider.movies}</h2>
       <button onClick={moviesProvider.increment}>+</button>
       <button onClick={moviesProvider.decrement}>-</button>

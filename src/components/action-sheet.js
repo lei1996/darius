@@ -6,7 +6,6 @@ import { css } from "linaria";
 const items = ["save item", "open item", "share item", "delete item", "cancel"];
 const height = items.length * 60 + 80;
 
-
 const bg = css`
   & > img {
     width: 100%;

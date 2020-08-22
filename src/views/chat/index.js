@@ -5,6 +5,7 @@ import { css } from "linaria";
 import { colors } from "../../styles/colors";
 
 import { TextMessage } from "../../components/Message/TextMessage";
+import { LinkmanList } from "./linkmanList";
 import { ChatInput } from "./chatInput";
 import { Avatar } from "../../components/avatar";
 
@@ -88,81 +89,6 @@ const search = css`
     outline: none;
     color: #fff;
   }
-`;
-
-const linkmanItems = css`
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
-  .linkmanItem {
-    width: 100%;
-    height: 70px;
-    padding: 0 16px;
-
-    display: flex;
-    align-items: center;
-
-    cursor: pointer;
-    transition: all 0.25s ease-in;
-
-    &:hover {
-      /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
-      background: rgba(222, 222, 222, 0.1);
-      /* transition: all 0.25s ease-out; */
-    }
-  }
-`;
-
-const linkmanContent = css`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const name = css`
-  font-size: 14px;
-  font-weight: bold;
-  color: ${colors.nameColor};
-  margin-bottom: 3px;
-`;
-
-const messageBox = css`
-  display: flex;
-
-  justify-content: space-between;
-`;
-
-const message = css`
-  flex: 1;
-  font-size: 13px;
-  color: ${colors.messageColor};
-
-  max-width: 155px;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
-
-const tips = css`
-  width: 36px;
-  color: ${colors.messageColor};
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const dot = css`
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: ${colors.messageColor};
-  margin-right: 4px;
-`;
-const time = css`
-  font-size: 11px;
 `;
 
 const chatRight = css`
@@ -316,67 +242,8 @@ export const Chat = () => {
           <div className={search}>
             <input placeholder="请输入关键字" />
           </div>
-          <div className={linkmanItems}>
-            <div className="linkmanItem">
-              {/* 左右布局 */}
-              {/* <div className={avatar}>
-                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
-              </div> */}
-              <Avatar
-                url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
-              />
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="linkmanItem">
-              {/* 左右布局 */}
-              <Avatar
-                url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
-              />
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="linkmanItem">
-              {/* 左右布局 */}
-              <Avatar
-                url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
-                online={true}
-              />
-              <div className={linkmanContent}>
-                <div className={name}>q111</div>
-                <div className={messageBox}>
-                  <div className={message}>
-                    我说： 你们在干嘛?你们在干嘛?你们在干嘛?
-                  </div>
-                  <div className={tips}>
-                    <div className={dot}></div>
-                    <div className={time}>9: 15</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <LinkmanList />
           </div>
-        </div>
         <div className={chatRight}>
           <div className={navBar}>
             <div className="navBarLeft">

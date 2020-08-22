@@ -23,6 +23,8 @@ const content = css`
   position: relative;
   width: 320px;
   height: 240px;
+
+  padding-top: 80px;
 `;
 
 const child = css`

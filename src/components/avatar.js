@@ -1,4 +1,5 @@
 import React from "react";
+import { Spring } from "react-spring";
 
 import { css } from "linaria";
 import { colors } from "../styles/colors";
@@ -30,12 +31,23 @@ const avatar = css`
 
 export const Avatar = ({ url, online = false, size = 44, style }) => {
   return (
-    <div className={avatar} style={{
+    <div
+      className={avatar}
+      style={{
         width: size,
         height: size,
-    }}>
+      }}
+    >
       <img src={url} />
-      {online ? <div className="online"></div> : null}
+      {online ? (
+        <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
+          {(props) => (
+            <div style={props}>
+              <div className="online" />
+            </div>
+          )}
+        </Spring>
+      ) : null}
     </div>
   );
 };
