@@ -1,5 +1,5 @@
 import React from "react";
-import { Spring } from "react-spring";
+import { useSpring, animated } from "react-spring";
 
 import { css } from "linaria";
 import { colors } from "../styles/colors";
@@ -30,6 +30,7 @@ const avatar = css`
 `;
 
 export const Avatar = ({ url, online = false, size = 44, style }) => {
+  const onlineSpring = useSpring({ from: { opacity: 0 }, to: { opacity: 1 } });
   return (
     <div
       className={avatar}
@@ -39,15 +40,7 @@ export const Avatar = ({ url, online = false, size = 44, style }) => {
       }}
     >
       <img src={url} />
-      {online ? (
-        <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
-          {(props) => (
-            <div style={props}>
-              <div className="online" />
-            </div>
-          )}
-        </Spring>
-      ) : null}
+      {online ? <animated.div style={onlineSpring} className="online" /> : null}
     </div>
   );
 };
