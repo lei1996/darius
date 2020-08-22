@@ -7,6 +7,7 @@ import { center } from "../../styles/global";
 
 import { Avatar } from "../../components/avatar";
 import { TextMessage } from "../../components/Message/TextMessage";
+import { ImageMessage } from "../../components/Message/ImageMessage";
 
 const container = css`
   .messageItem {
@@ -50,14 +51,14 @@ const container = css`
         margin-bottom: 12px;
 
         .name {
-          font-size: 14px;
+          font-size: 15px;
           color: #fcfbff;
           font-weight: bold;
         }
         .time {
-          font-size: 11px;
+          font-size: 13px;
           color: #bcb9c3;
-          margin-left: 16px;
+          margin-left: 6px;
         }
       }
       .content {
@@ -82,6 +83,7 @@ export const MessageList = () => {
   });
 
   const renderContent = (message) => {
+    // 后面引入 语音消息，  背景色作为一个进度条， 播放的时候，更改组件状态。
     switch (type) {
       case "text": {
         // return <TextMessage content={content} />;
@@ -117,10 +119,10 @@ export const MessageList = () => {
         />
         <div className="message">
           <div className="head">
-            <div className="name">q111</div>
+            <div className="name">碎碎酱</div>
             <div className="time">14: 12</div>
           </div>
-          <div className="content">你们觉得 今天的天气怎么样？</div>
+          <TextMessage content="你们觉得 今天的天气怎么样？" />
         </div>
       </animated.div>
       <animated.div style={messageSpring} className="messageItem">
@@ -130,10 +132,10 @@ export const MessageList = () => {
         />
         <div className="message">
           <div className="head">
-            <div className="name">q111</div>
+            <div className="name">shulan</div>
             <div className="time">14: 12</div>
           </div>
-          <TextMessage content="你们觉得#(阴险) 今天的天气怎么样？你们觉得" />
+          <TextMessage content="你们觉得#(阴险) 今天的天https://www.baidu.com/ 气怎么样？你们觉得" />
         </div>
       </animated.div>
       <animated.div style={messageSpring} className="messageItem">
@@ -143,14 +145,14 @@ export const MessageList = () => {
         />
         <div className="message">
           <div className="head">
-            <div className="name">q111</div>
+            <div className="name">大鱼</div>
             <div className="time">14: 12</div>
           </div>
-          <div className="content">
-            你们觉得 今天的天气怎么样？你们觉得 今天的天气怎么样？你们觉得
+          <TextMessage
+            content="你们觉得 今天的天气怎么样？你们觉得 今天的天气怎么样？你们觉得
             今天的天气怎么样？你们觉得 今天的天气怎么样？你们觉得
-            今天的天气怎么样？你们觉得 今天的天气怎么样？
-          </div>
+            今天的天气怎么样？你们觉得 今天的天气怎么样？"
+          />
         </div>
       </animated.div>
       <animated.div style={messageSpring} className="messageItem self">
@@ -160,20 +162,7 @@ export const MessageList = () => {
         />
         <div className="message">
           <div className="head">
-            <div className="name">q111</div>
-            <div className="time">14: 12</div>
-          </div>
-          <div className="content">你们觉得 今天的天气怎么样？</div>
-        </div>
-      </animated.div>
-      <animated.div style={messageSpring} className="messageItem">
-        <Avatar
-          url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
-          online={true}
-        />
-        <div className="message">
-          <div className="head">
-            <div className="name">q111</div>
+            <div className="name">222222</div>
             <div className="time">14: 12</div>
           </div>
           <TextMessage content="你们觉得#(阴险) 今天的天气怎么样？你们觉得" />
@@ -189,7 +178,20 @@ export const MessageList = () => {
             <div className="name">q111</div>
             <div className="time">14: 12</div>
           </div>
-          <TextMessage content="你们觉得#(阴险) 今天的天气怎么样？你们觉得" />
+          <ImageMessage src="https://i.pximg.net/img-master/img/2020/08/21/00/25/10/83822089_p0_master1200.jpg" />
+        </div>
+      </animated.div>
+      <animated.div style={messageSpring} className="messageItem">
+        <Avatar
+          url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
+          online={true}
+        />
+        <div className="message">
+          <div className="head">
+            <div className="name">mdzz</div>
+            <div className="time">14: 12</div>
+          </div>
+          <ImageMessage src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1598107210&di=edaa94e17d79d8d252dea5ac2fc729a7&src=http://g.hiphotos.baidu.com/zhidao/pic/item/bba1cd11728b4710b7e37b59c5cec3fdfd032352.jpg" />
         </div>
       </animated.div>
     </div>

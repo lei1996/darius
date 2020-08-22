@@ -12,6 +12,11 @@ const contentStyle = css`
   font-size: 15px;
   color: ${colors.messageContentColor};
   user-select: text;
+
+  & > a {
+    color: #afb3bb;
+    user-select: text;
+  }
 `;
 
 const baidu = css`
