@@ -10,4 +10,5 @@ export const colors = {
   messagebgColor: '#17191D',
   messageContentBgColor: '#1F2125',
   messageContentColor: '#8E9094',
+  linkColor: '#afb3bb',
 };

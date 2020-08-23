@@ -8,6 +8,7 @@ import { center } from "../../styles/global";
 import { Avatar } from "../../components/avatar";
 import { TextMessage } from "../../components/Message/TextMessage";
 import { ImageMessage } from "../../components/Message/ImageMessage";
+import { VoiceMessage } from "../../components/Message/VoiceMessage";
 
 const container = css`
   .messageItem {
@@ -52,12 +53,12 @@ const container = css`
 
         .name {
           font-size: 15px;
-          color: #fcfbff;
+          color: ${colors.linkColor};
           font-weight: bold;
         }
         .time {
           font-size: 13px;
-          color: #bcb9c3;
+          color: #a9a6b1;
           margin-left: 6px;
         }
       }
@@ -165,20 +166,7 @@ export const MessageList = () => {
             <div className="name">222222</div>
             <div className="time">14: 12</div>
           </div>
-          <TextMessage content="你们觉得#(阴险) 今天的天气怎么样？你们觉得" />
-        </div>
-      </animated.div>
-      <animated.div style={messageSpring} className="messageItem">
-        <Avatar
-          url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
-          online={true}
-        />
-        <div className="message">
-          <div className="head">
-            <div className="name">q111</div>
-            <div className="time">14: 12</div>
-          </div>
-          <ImageMessage src="https://i.pximg.net/img-master/img/2020/08/21/00/25/10/83822089_p0_master1200.jpg" />
+          <VoiceMessage src="http://www.bxc.com/" />
         </div>
       </animated.div>
       <animated.div style={messageSpring} className="messageItem">

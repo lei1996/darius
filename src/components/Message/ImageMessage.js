@@ -13,6 +13,7 @@ const baiduImage = "../../assets/images/baidu.png";
 const ImageStyle = css`
   color: ${colors.messageContentColor};
   overflow: hidden;
+  position: relative;
 
   img {
     border-radius: 12px;
@@ -58,7 +59,6 @@ export const ImageMessage = ({ src, loading, percent }) => {
       <animated.div style={opacitySpring}>
         <img src={imageSrc} width={width} height={height} onLoad={loadImage} />
       </animated.div>
-      {/* <img src={src} onLoad={loadImage} /> */}
     </div>
   );
 };

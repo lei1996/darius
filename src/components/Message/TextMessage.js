@@ -14,7 +14,7 @@ const contentStyle = css`
   user-select: text;
 
   & > a {
-    color: #afb3bb;
+    color: ${colors.linkColor};
     user-select: text;
   }
 `;

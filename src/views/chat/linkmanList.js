@@ -6,7 +6,8 @@ import { colors } from "../../styles/colors";
 import { center } from "../../styles/global";
 
 import { Avatar } from "../../components/avatar";
-
+import { ReactComponent as Badge } from "../../assets/svg/badge.svg";
+import { ReactComponent as UrendCount } from "../../assets/svg/search-background.svg";
 
 const linkmanItems = css`
   flex: 1;
@@ -28,6 +29,14 @@ const linkmanItems = css`
       /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
       background: rgba(222, 222, 222, 0.1);
       /* transition: all 0.25s ease-out; */
+    }
+
+    .avatar {
+      position: relative;
+      & > svg {
+        position: absolute;
+        transform: scale(1.5);
+      }
     }
   }
 `;
@@ -89,7 +98,10 @@ export const LinkmanList = () => {
     <div className={linkmanItems}>
       <div className="linkmanItem">
         {/* 左右布局 */}
-        <Avatar url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+        <div className="avatar">
+          <Badge />
+          <Avatar url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+        </div>
         <div className={linkmanContent}>
           <div className="name">q111</div>
           <div className="messageBox">
@@ -105,7 +117,10 @@ export const LinkmanList = () => {
       </div>
       <div className="linkmanItem">
         {/* 左右布局 */}
-        <Avatar online={true} url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg" />
+        <Avatar
+          online={true}
+          url="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
+        />
         <div className={linkmanContent}>
           <div className="name">q111</div>
           <div className="messageBox">
