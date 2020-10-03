@@ -72,6 +72,7 @@ const container = css`
 `;
 
 export const MessageList = () => {
+  // useSpring 改为 useTransition
   const messageSpring = useSpring({
     from: {
       transform: "translate3d(0,100%,0)",

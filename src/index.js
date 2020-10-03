@@ -5,6 +5,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app";
 
+// F2 核心库
+// require('@antv/f2/lib/core');
+// 加载全部图形
+// require('@antv/f2/lib/geom/');
+
+// require('@antv/f2/lib/geom/line'); // 只加载折线图
+// require('@antv/f2/lib/geom/area'); // 只加载面积图
+// require('@antv/f2/lib/geom/interval'); // 只加载柱状图
+// require('@antv/f2/lib/geom/path'); // 只加载路径图
+// require('@antv/f2/lib/geom/point'); // 只加载点图
+// require('@antv/f2/lib/geom/polygon'); // 只加载色块图
+// require('@antv/f2/lib/geom/schema'); // 只加载箱型图、股票图
+
+
 // dev模式 会报warning
 // https://github.com/mobxjs/mobx-react-lite/#observer-batching
 import "mobx-react-lite/batchingForReactDom";

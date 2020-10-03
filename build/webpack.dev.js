@@ -7,20 +7,18 @@ module.exports = merge(common, {
   devtool: "#cheap-module-eval-source-map",
   // 入口文件
   devServer: {
-    host: '0.0.0.0',
-    port: 10000,
     // dev 开发模式导入public 目录下的文件
     contentBase: path.join(__dirname, "public"),
     historyApiFallback: true,
     publicPath: "/", // 访问资源加前缀
     proxy: {
       // 接口请求代理
-      '/api': {
+      "/api": {
         // target: 'http://test.admin.hkgc1688.com/api',
-        target: 'http://localhost:5000',
+        target: "http://localhost:5000",
         secure: false,
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { "^/api": "" },
       },
     },
     hot: true,

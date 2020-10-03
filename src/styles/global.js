@@ -10,6 +10,12 @@ css`
       margin: 0;
       padding: 0;
     }
+
+    #root {
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #e1e1e9 0%, #8e8f93 100%);
+    }
   }
 `;
 
@@ -18,7 +24,6 @@ export const center = {
   justifyContent: "center",
   alignItems: "center",
 };
-
 
 export const common = {
   display: "flex",

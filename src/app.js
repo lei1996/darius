@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Router, Link } from "@reach/router";
 import { useObserver, observer, useLocalStore } from "mobx-react-lite";
+import F2 from "@antv/f2";
 
 import { hot } from "react-hot-loader/root";
 
 import { AppProvider, AppContext } from "./appStore";
 
+import { Chart } from "./components/Chart";
 import { DraggableList } from "./components/draggable-list";
 import { Deck } from "./components/Deck";
 import { ActionSheet } from "./components/action-sheet";
@@ -13,7 +15,11 @@ import { Infinite } from "./components/infinite-slideshow";
 import { Chat } from "./views/chat/index";
 
 import { css } from "linaria";
+import { center } from "./styles/global";
 import "./styles/global";
+
+// 全局设置，所有的图表生效
+F2.Global.pixelRatio = window.devicePixelRatio;
 
 const navBar = css`
   position: fixed;
@@ -42,34 +48,86 @@ const RouteNavs = () => {
       <Link to="/movie">Movie</Link>
       <Link to="/dragList">DragList</Link>
       <Link to="/deck">Deck</Link>
-      <Link to="/action-sheet">action-sheet</Link>
+      {/* <Link to="/action-sheet">action-sheet</Link> */}
       <Link to="/infinite">Infinite Slider</Link>
       <Link to="/chat">Chat</Link>
     </div>
   );
 };
 
+const inputStyle = css`
+  width: 200px;
+  height: 40px;
+  ${center};
+
+  position: relative;
+
+  & > input {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    outline: none;
+    border: none;
+
+    &.hidden {
+      opacity: 0;
+    }
+  }
+`;
+
 const Count = () => {
   const { counterProvider } = useContext(AppContext);
+  const [value, setValue] = useState("");
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
 
   return useObserver(() => (
-    <div style={{paddingTop: 80}}>
+    <div style={{ paddingTop: 80 }}>
       <h2>Count: {counterProvider.count}</h2>
       <button onClick={counterProvider.increment}>+</button>
       <button onClick={counterProvider.decrement}>-</button>
       <Counter1 initialCount={111} />
+
+      <div className={inputStyle}>
+        <span>{value.substr(0, 3)} {value.substr(3, 4)} {value.substr(7, 4)}</span>
+        <input className={value ? 'hidden' : ''} value={value} onChange={onChange} placeholder="sdsd" />
+      </div>
     </div>
   ));
 };
+
+const data = [
+  { genre: "Sports", sold: 275 },
+  { genre: "Strategy", sold: 115 },
+  { genre: "Action", sold: 120 },
+  { genre: "Shooter", sold: 350 },
+  { genre: "Other", sold: 150 },
+];
+
+const data1 = [
+  { genre: "Sports", sold: 112 },
+  { genre: "Strategy", sold: 12 },
+  { genre: "Action", sold: 34 },
+  { genre: "Shooter", sold: 1 },
+  { genre: "Other", sold: 222 },
+];
 
 const Movie = () => {
   const { moviesProvider } = useContext(AppContext);
 
   return useObserver(() => (
-    <div style={{paddingTop: 80}}>
+    <div style={{ paddingTop: 80 }}>
       <h2>Movies: {moviesProvider.movies}</h2>
       <button onClick={moviesProvider.increment}>+</button>
       <button onClick={moviesProvider.decrement}>-</button>
+
+      <Chart datas={data} />
     </div>
   ));
 };
